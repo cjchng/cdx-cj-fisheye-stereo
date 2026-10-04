@@ -35,7 +35,7 @@ See the [bilingual reading index](Job-003_cdx-reading-index.md) for the reading 
 | Angular sampling and solid angle / 角取樣與立體角 | [Read](Job-004_cdx-A-angular-sampling-teaching.md) | [PDF](Job-004_cdx-A-angular-sampling-teaching.pdf) |
 | OCam versus KB / OCam 與 KB 比較 | [Read](Job-004_cdx-B-kb-ocam-teaching.md) | [PDF](Job-004_cdx-B-kb-ocam-teaching.pdf) |
 
-The handouts include questions and answers, derivations, and further reading. Their shared analytical figure is in [Job-004_cdx-assets](Job-004_cdx-assets/).
+The handouts include questions and answers, derivations, and further reading. Their shared analytical figure is in [Job-004_cdx-assets](https://github.com/cjchng/cdx-cj-fisheye-stereo/tree/main/docs/Job-004_cdx-assets).
 
 ## Scope and provenance / 範圍與來源
 

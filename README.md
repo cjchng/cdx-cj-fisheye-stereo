@@ -1,6 +1,6 @@
 # C++ Fisheye Stereo Calibration
 
-This example estimates two fisheye camera intrinsics, their relative rotation R, translation T and baseline B using a checkerboard of known dimensions. The implementation provides a C++ library, image-based command-line workflow, and local HTTP JSON API. Source: [repository tree](.).
+This example estimates two fisheye camera intrinsics, their relative rotation R, translation T and baseline B using a checkerboard of known dimensions. The implementation provides a C++ library, image-based command-line workflow, and local HTTP JSON API. Source: [repository tree](https://github.com/cjchng/cdx-cj-fisheye-stereo/tree/main).
 
 ## Get the source
 

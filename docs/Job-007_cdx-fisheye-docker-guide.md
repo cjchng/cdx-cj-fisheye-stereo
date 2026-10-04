@@ -1,6 +1,6 @@
 # Fisheye stereo app: Docker and container utilities
 
-Container files live in [fisheye-stereo/docker](../docker/). They provide a multi-stage Debian Bookworm image, Docker Compose services, and a shell utility for building, running, checking and testing the app. Docker Engine or Docker Desktop with Compose v2 is required. No host OpenCV installation is needed.
+Container files live in [fisheye-stereo/docker](https://github.com/cjchng/cdx-cj-fisheye-stereo/tree/main/docker). They provide a multi-stage Debian Bookworm image, Docker Compose services, and a shell utility for building, running, checking and testing the app. Docker Engine or Docker Desktop with Compose v2 is required. No host OpenCV installation is needed.
 
 ## Start the API
 
