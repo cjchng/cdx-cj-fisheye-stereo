@@ -1,0 +1,11 @@
+build/
+.git/
+README.md
+docker/README.md
+docker/data/
+docker/.env
+previews*/
+observations*.json
+result*.json
+**/__pycache__/
+**/.DS_Store

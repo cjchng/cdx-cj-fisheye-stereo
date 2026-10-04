@@ -1,0 +1,62 @@
+name: fisheye-stereo
+
+x-runtime: &runtime
+  image: fisheye-stereo:local
+  build:
+    context: ..
+    dockerfile: docker/Dockerfile
+    target: runtime
+    args:
+      BUILD_JOBS: ${BUILD_JOBS:-2}
+  init: true
+  read_only: true
+  tmpfs:
+    - /tmp
+  cap_drop: [ALL]
+  security_opt:
+    - no-new-privileges:true
+
+services:
+  api:
+    <<: *runtime
+    ports:
+      - "127.0.0.1:${FISHEYE_HTTP_PORT:-8080}:8080"
+    environment:
+      FISHEYE_BIND_ADDRESS: 0.0.0.0
+    stop_grace_period: 10s
+
+  cli:
+    <<: *runtime
+    profiles: [tools]
+    working_dir: /data
+    entrypoint: [fisheye_stereo]
+    command: [--help]
+    healthcheck:
+      disable: true
+    volumes:
+      - "${FISHEYE_DATA_DIR:-./data}:/data"
+
+  shell:
+    <<: *runtime
+    profiles: [tools]
+    working_dir: /data
+    entrypoint: [/bin/sh]
+    command: []
+    healthcheck:
+      disable: true
+    volumes:
+      - "${FISHEYE_DATA_DIR:-./data}:/data"
+
+  tests:
+    image: fisheye-stereo:test
+    profiles: [tools]
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      target: test
+      args:
+        BUILD_JOBS: ${BUILD_JOBS:-2}
+    init: true
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true

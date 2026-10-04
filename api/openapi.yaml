@@ -1,0 +1,126 @@
+openapi: 3.0.3
+info:
+  title: Fisheye Stereo Calibration
+  version: 1.0.0
+  description: Local synchronous calibration using ordered checkerboard corner observations.
+servers:
+  - url: http://127.0.0.1:8080
+paths:
+  /health:
+    get:
+      operationId: health
+      responses:
+        '200':
+          description: Process is available (does not imply calibration is idle).
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, enum: [ok] }
+                  schema_version: { type: integer, enum: [1] }
+  /v1/calibrate:
+    post:
+      operationId: calibrateStereo
+      description: >-
+        Estimates intrinsics followed by stereo extrinsics with fixed intrinsics.
+        Maximum body size 4 MiB; one active solve. Image points must identify
+        matching physical corners. This endpoint does not accept image files.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/Dataset' }
+      responses:
+        '200':
+          description: Solver completed; training residuals do not certify physical accuracy.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Result' }
+        '400': { $ref: '#/components/responses/Error' }
+        '413': { $ref: '#/components/responses/Error' }
+        '415': { $ref: '#/components/responses/Error' }
+        '422': { $ref: '#/components/responses/Error' }
+        '429': { $ref: '#/components/responses/Error' }
+        '500': { $ref: '#/components/responses/Error' }
+components:
+  responses:
+    Error:
+      description: See error.code and error.message for the reason.
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [error]
+            properties:
+              error:
+                type: object
+                required: [code, message]
+                properties:
+                  code: { type: string }
+                  message: { type: string }
+  schemas:
+    Point:
+      type: array
+      minItems: 2
+      maxItems: 2
+      items: { type: number, format: double }
+      description: '[x,y] pixel coordinate; finite and inside the image.'
+    Corners:
+      type: array
+      minItems: 9
+      maxItems: 900
+      items: { $ref: '#/components/schemas/Point' }
+      description: Exactly board_cols * board_rows points in row-major board order.
+    Dataset:
+      type: object
+      required: [schema_version, image_width, image_height, board_cols, board_rows, square_size, unit, views]
+      properties:
+        schema_version: { type: integer, enum: [1] }
+        image_width: { type: integer, minimum: 1, maximum: 32768 }
+        image_height: { type: integer, minimum: 1, maximum: 32768 }
+        board_cols: { type: integer, minimum: 3, maximum: 30 }
+        board_rows: { type: integer, minimum: 3, maximum: 30 }
+        square_size: { type: number, format: double, minimum: 0, exclusiveMinimum: true }
+        unit: { type: string, enum: [mm, cm, m] }
+        views:
+          type: array
+          minItems: 6
+          maxItems: 100
+          items:
+            type: object
+            required: [left, right]
+            properties:
+              left: { $ref: '#/components/schemas/Corners' }
+              right: { $ref: '#/components/schemas/Corners' }
+    Matrix:
+      type: array
+      items:
+        type: array
+        items: { type: number, format: double }
+      description: Array of rows, including Nx1 matrices for column vectors.
+    Result:
+      type: object
+      required: [schema_version, model, transform, unit, image_width, image_height, board_cols, board_rows, square_size, views_used, baseline, rms_left_px, rms_right_px, rms_stereo_px, K_left, K_right, D_left, D_right, R, T, camera2_center_in_camera1]
+      properties:
+        schema_version: { type: integer, enum: [1] }
+        model: { type: string, enum: [opencv_fisheye_kb4] }
+        transform: { type: string, enum: ['X_right = R * X_left + T'] }
+        unit: { type: string, enum: [mm, cm, m] }
+        image_width: { type: integer }
+        image_height: { type: integer }
+        board_cols: { type: integer }
+        board_rows: { type: integer }
+        square_size: { type: number }
+        views_used: { type: integer }
+        baseline: { type: number, minimum: 0 }
+        rms_left_px: { type: number, minimum: 0 }
+        rms_right_px: { type: number, minimum: 0 }
+        rms_stereo_px: { type: number, minimum: 0 }
+        K_left: { $ref: '#/components/schemas/Matrix' }
+        K_right: { $ref: '#/components/schemas/Matrix' }
+        D_left: { $ref: '#/components/schemas/Matrix' }
+        D_right: { $ref: '#/components/schemas/Matrix' }
+        R: { $ref: '#/components/schemas/Matrix' }
+        T: { $ref: '#/components/schemas/Matrix' }
+        camera2_center_in_camera1: { $ref: '#/components/schemas/Matrix' }

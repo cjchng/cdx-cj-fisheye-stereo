@@ -1,0 +1,16 @@
+%YAML:1.0
+---
+schema_version: 1
+board_cols: 9
+board_rows: 6
+square_size: 30.0
+unit: mm
+# Paths relative to THIS file. Replace these placeholders with your images.
+# Flags reverse the full detected corner list; inspect numbered previews.
+pairs:
+  - { left: "images/left01.png", right: "images/right01.png", reverse_left: 0, reverse_right: 0 }
+  - { left: "images/left02.png", right: "images/right02.png", reverse_left: 0, reverse_right: 0 }
+  - { left: "images/left03.png", right: "images/right03.png", reverse_left: 0, reverse_right: 0 }
+  - { left: "images/left04.png", right: "images/right04.png", reverse_left: 0, reverse_right: 0 }
+  - { left: "images/left05.png", right: "images/right05.png", reverse_left: 0, reverse_right: 0 }
+  - { left: "images/left06.png", right: "images/right06.png", reverse_left: 0, reverse_right: 0 }

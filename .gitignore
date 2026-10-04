@@ -1,0 +1,9 @@
+/build/
+/previews*/
+/observations*.json
+/result*.json
+/docker/.env
+/docker/data/
+.DS_Store
+.env
+__pycache__/
