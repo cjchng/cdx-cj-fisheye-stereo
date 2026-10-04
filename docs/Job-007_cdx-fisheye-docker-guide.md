@@ -1,12 +1,10 @@
 # Fisheye stereo app: Docker and container utilities
 
-Container files live in [fisheye-stereo/docker](.). They provide a multi-stage Debian Bookworm image, Docker Compose services, and a shell utility for building, running, checking and testing the app. Docker Engine or Docker Desktop with Compose v2 is required. No host OpenCV installation is needed.
+Container files live in [fisheye-stereo/docker](../docker/). They provide a multi-stage Debian Bookworm image, Docker Compose services, and a shell utility for building, running, checking and testing the app. Docker Engine or Docker Desktop with Compose v2 is required. No host OpenCV installation is needed.
 
 ## Start the API
 
-The repository [document index](../docs/README.md) includes a copy of this guide and the related calibration notes.
-
-Run from the repository root:
+Run from the `fisheye-stereo` source directory:
 
 ```sh
 ./docker/manage.sh up
@@ -78,7 +76,7 @@ Copy the structure from `examples/pairs.yml` and enter the board dimensions, act
 ./docker/manage.sh cli calibrate /data/observations.json /data/result-real.json
 ```
 
-Use fresh output filenames and preview folders when repeating detection. A plain checkerboard can have ambiguous corner order; follow the [calibration guide](../README.md) before accepting the result. The model still requires supported forward-hemisphere observations; Docker does not extend the lens model.
+Use fresh output filenames and preview folders when repeating detection. A plain checkerboard can have ambiguous corner order; follow the [calibration guide](Job-006_cdx-fisheye-stereo-guide.md) before accepting the result. The model still requires supported forward-hemisphere observations; Docker does not extend the lens model.
 
 ## Configuration
 

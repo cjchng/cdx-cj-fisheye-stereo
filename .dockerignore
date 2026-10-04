@@ -1,4 +1,5 @@
 build/
+docs/
 .git/
 README.md
 docker/README.md
